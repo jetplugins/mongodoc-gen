@@ -1,0 +1,34 @@
+<idea-plugin>
+    <id>com.github.lkqm.mongodoc-gen</id>
+    <name>Mongodoc Gen</name>
+    <vendor email="luokaiqiongmou@foxmail.com" url="https://github.com/lkqm/mongodoc-gen-intellij-plugin">lkqm</vendor>
+
+    <description>Mongodb database document generation intellij plugin.</description>
+
+    <!-- please see https://plugins.jetbrains.com/docs/intellij/plugin-compatibility.html
+         on how to target different products -->
+    <depends>com.intellij.modules.platform</depends>
+    <depends>com.intellij.modules.java</depends>
+
+    <extensions defaultExtensionNs="com.intellij">
+        <!-- Add your extensions here -->
+    </extensions>
+
+    <actions>
+        <!-- Add your actions here -->
+        <action id="com.github.lkqm.mongodocgen.MainAction" class="com.github.lkqm.mongodocgen.MainAction"
+            text="Generate mongodb Doc">
+            <add-to-group group-id="ProjectViewPopupMenu" anchor="last"/>
+        </action>
+    </actions>
+
+    <change-notes><![CDATA[
+      <p>0.0.1</p>
+      <ul>
+        <li>1.Generate mongodb document from Java entity class.</li>
+      </ul>
+      <ul>
+        <li>1.一键生成mongodb数据库文档从实体类注释文档.</li>
+      </ul>
+      ]]></change-notes>
+</idea-plugin>
