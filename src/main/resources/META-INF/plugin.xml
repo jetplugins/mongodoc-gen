@@ -1,9 +1,23 @@
 <idea-plugin>
     <id>com.github.lkqm.mongodoc-gen</id>
     <name>Mongodoc Gen</name>
-    <vendor email="luokaiqiongmou@foxmail.com" url="https://github.com/lkqm/mongodoc-gen-intellij-plugin">lkqm</vendor>
+    <vendor email="luokaiqiongmou@foxmail.com" url="https://github.com/lkqm">lkqm</vendor>
 
-    <description>Mongodb database document generation intellij plugin.</description>
+    <description><![CDATA[
+        <p>Generate mongodb database documents from the spring-data-mongodb entity class.</p>
+        <em>Usage:</em>
+        <ul>
+            <li>Add @Document annotation and Javadoc document comment to entity class.</li>
+            <li>Select the right-click menu of the module and execute "Generate mongodb Doc".</li>
+            <li>Generated documents in module path "target/mongodoc-gen"</li>
+        </ul>
+        <em>使用:</em>
+        <ul>
+            <li>实体类上添加@Document注解和标准的Javadoc文档注释.</li>
+            <li>项目视图选中源代码模块，执行"Generate mongodb Doc".</li>
+            <li>生成的文档在模块目录下"target/mongodoc-gen"</li>
+        </ul>
+    ]]></description>
 
     <!-- please see https://plugins.jetbrains.com/docs/intellij/plugin-compatibility.html
          on how to target different products -->
