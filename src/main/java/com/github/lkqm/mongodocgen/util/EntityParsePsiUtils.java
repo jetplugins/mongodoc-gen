@@ -59,7 +59,7 @@ public class EntityParsePsiUtils {
         String collectionName = null;
         PsiAnnotation documentAnnotation = psiClass.getAnnotation(CommonConstants.DOCUMENT_ANNOTATION);
         if (documentAnnotation != null) {
-            collectionName = AnnotationUtil.getStringAttributeValue(documentAnnotation, "collation");
+            collectionName = AnnotationUtil.getStringAttributeValue(documentAnnotation, "collection");
             if (StringUtils.isBlank(collectionName)) {
                 collectionName = AnnotationUtil.getStringAttributeValue(documentAnnotation, "value");
             }
