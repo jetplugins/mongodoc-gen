@@ -1,5 +1,7 @@
 package com.github.lkqm.mongodocgen.util;
 
+import static java.util.Objects.nonNull;
+
 import cn.smallbun.screw.core.constant.DefaultConstants;
 import cn.smallbun.screw.core.metadata.model.ColumnModel;
 import cn.smallbun.screw.core.metadata.model.TableModel;
@@ -15,6 +17,7 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiEnumConstant;
 import com.intellij.psi.PsiField;
 import com.intellij.psi.PsiJavaDocumentedElement;
+import com.intellij.psi.PsiJvmModifiersOwner;
 import com.intellij.psi.PsiModifier;
 import com.intellij.psi.PsiModifierList;
 import com.intellij.psi.PsiType;
@@ -44,6 +47,7 @@ public class EntityParsePsiUtils {
         TableModel tableModel = new TableModel();
         tableModel.setTableName(EntityParsePsiUtils.getCollectionName(psiClass));
         tableModel.setRemarks(EntityParsePsiUtils.getCollectionDescription(psiClass));
+        tableModel.setDeprecated(isDeprecated(psiClass));
         tableModel.setColumns(EntityParsePsiUtils.getFields(psiClass, fieldsChain));
         return tableModel;
     }
@@ -105,6 +109,7 @@ public class EntityParsePsiUtils {
             column.setColumnType(getFieldType(field));
             column.setRemarks(getFieldDescription(field));
             column.setPrimaryKey(isFieldPrimaryKey(field) ? DefaultConstants.Y : DefaultConstants.N);
+            column.setDeprecated(isDeprecated(field));
 
             // 复杂类型处理
             boolean isEnum = FieldTypeUtils.isEnum(type);
@@ -143,6 +148,14 @@ public class EntityParsePsiUtils {
             }
         }
         return columns;
+    }
+
+    /**
+     * 是否标记废弃
+     */
+    private static Boolean isDeprecated(PsiJvmModifiersOwner target) {
+        PsiAnnotation annotation = target.getAnnotation(CommonConstants.DEPRECATED_ANNOTATION);
+        return nonNull(annotation);
     }
 
     /**

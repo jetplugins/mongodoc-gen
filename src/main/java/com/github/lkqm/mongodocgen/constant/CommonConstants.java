@@ -23,6 +23,8 @@ public interface CommonConstants {
 
     String PERSISTENT_ID_ANNOTATION = "javax.persistence.Id";
 
+    String DEPRECATED_ANNOTATION = "java.lang.Deprecated";
+
     String COLLECTION_CLASS = "java.util.Collection";
 
     String MAP_CLASS = "java.util.Collection";
