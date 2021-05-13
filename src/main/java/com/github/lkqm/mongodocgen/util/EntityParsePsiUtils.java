@@ -97,13 +97,11 @@ public class EntityParsePsiUtils {
      * 解析集合字段
      */
     public static List<ColumnModel> getFields(PsiClass psiClass, List<PsiClass> fieldsChain) {
-        Project project = psiClass.getProject();
         List<ColumnModel> columns = Lists.newArrayListWithExpectedSize(psiClass.getAllFields().length);
         for (PsiField field : psiClass.getAllFields()) {
             if (EntityParsePsiUtils.isFieldSkip(field)) {
                 continue;
             }
-            PsiType type = field.getType();
             ColumnModel column = new ColumnModel();
             columns.add(column);
             column.setColumnName(getFieldName(field));
@@ -111,33 +109,50 @@ public class EntityParsePsiUtils {
             column.setRemarks(getFieldDescription(field));
             column.setPrimaryKey(isFieldPrimaryKey(field) ? DefaultConstants.Y : DefaultConstants.N);
             column.setDeprecated(isDeprecated(field));
-
-            // 复杂类型处理
-            PsiClass fieldPsiClass = null;
-            boolean isBean = CommonConstants.TYPE_NAME_OBJECT.equals(column.getColumnType()) && !FieldTypeUtils.isMap(
-                    type);
-            if (isBean) {
-                fieldPsiClass = JavaPsiFacade.getInstance(project)
-                        .findClass(type.getCanonicalText(), GlobalSearchScope.projectScope(project));
-            } else if (FieldTypeUtils.isArray(type)) {
-                PsiArrayType arrayType = (PsiArrayType) type;
-                PsiType componentType = arrayType.getComponentType();
-                fieldPsiClass = JavaPsiFacade.getInstance(project)
-                        .findClass(componentType.getCanonicalText(), GlobalSearchScope.projectScope(project));
-            } else if (FieldTypeUtils.isCollection(type)) {
-                PsiClassReferenceType type1 = (PsiClassReferenceType) type;
-                PsiType componentType = type1.getParameters()[0];
-                fieldPsiClass = JavaPsiFacade.getInstance(project)
-                        .findClass(componentType.getCanonicalText(), GlobalSearchScope.projectScope(project));
-            }
-            if (fieldPsiClass != null && !fieldsChain.contains(fieldPsiClass)) {
-                List<PsiClass> theChain = Lists.newArrayList(fieldsChain);
-                theChain.add(fieldPsiClass);
-                TableModel fieldTableModel = getTableModel(fieldPsiClass, theChain);
-                column.setNestedTable(fieldTableModel);
-            }
+            column.setNestedTable(getFieldNestedTable(fieldsChain, field, column.getColumnType()));
         }
         return columns;
+    }
+
+    /**
+     * 获取字段嵌套数据
+     */
+    private static TableModel getFieldNestedTable(List<PsiClass> fieldsChain, PsiField field, String columnType) {
+        Project project = field.getProject();
+        PsiType type = field.getType();
+
+        PsiClass fieldPsiClass = null;
+        PsiType componentType = null;
+        boolean isBean = CommonConstants.TYPE_NAME_OBJECT.equals(columnType) && !FieldTypeUtils.isMap(type);
+        if (isBean) {
+            fieldPsiClass = JavaPsiFacade.getInstance(project)
+                    .findClass(type.getCanonicalText(), GlobalSearchScope.projectScope(project));
+        } else if (FieldTypeUtils.isArray(type)) {
+            PsiArrayType arrayType = (PsiArrayType) type;
+            componentType = arrayType.getComponentType();
+            fieldPsiClass = JavaPsiFacade.getInstance(project)
+                    .findClass(componentType.getCanonicalText(), GlobalSearchScope.projectScope(project));
+        } else if (FieldTypeUtils.isCollection(type)) {
+            PsiClassReferenceType type1 = (PsiClassReferenceType) type;
+            componentType = type1.getParameters()[0];
+            fieldPsiClass = JavaPsiFacade.getInstance(project)
+                    .findClass(componentType.getCanonicalText(), GlobalSearchScope.projectScope(project));
+        }
+
+        // 非对象数组
+        if(componentType != null) {
+            String simpleType = FieldTypeUtils.getSimpleType(componentType);
+            if(simpleType != null && !simpleType.equals(CommonConstants.TYPE_NAME_OBJECT)) {
+                return null;
+            }
+        }
+
+        if (fieldPsiClass != null && !fieldsChain.contains(fieldPsiClass)) {
+            List<PsiClass> theChain = Lists.newArrayList(fieldsChain);
+            theChain.add(fieldPsiClass);
+            return getTableModel(fieldPsiClass, theChain);
+        }
+        return null;
     }
 
     /**
@@ -178,18 +193,37 @@ public class EntityParsePsiUtils {
      * 获取字段的描述
      */
     public static String getFieldDescription(PsiField field) {
+        PsiType type = field.getType();
+        Project project = field.getProject();
         String description = getCommentDescription(field);
         description = Objects.nonNull(description)?description :"";
 
-        PsiType type = field.getType();
+        PsiType componentType = null;
         boolean isEnum = FieldTypeUtils.isEnum(type);
         if (isEnum) {
-            PsiClass enumPsiClass = JavaPsiFacade.getInstance(field.getProject()).findClass(type.getCanonicalText(),
-                    GlobalSearchScope.projectScope(field.getProject()));
+            PsiClass enumPsiClass = JavaPsiFacade.getInstance(project).findClass(type.getCanonicalText(),
+                    GlobalSearchScope.projectScope(project));
+            if (enumPsiClass != null) {
+                description += (": " + getEnumConstantsDescription(enumPsiClass));
+            }
+        } else if (FieldTypeUtils.isArray(type)) {
+            PsiArrayType arrayType = (PsiArrayType) type;
+            componentType = arrayType.getComponentType();
+        } else if (FieldTypeUtils.isCollection(type)) {
+            PsiClassReferenceType type1 = (PsiClassReferenceType) type;
+            componentType = type1.getParameters().length > 0?type1.getParameters()[0]:null;
+        }
+
+        // 枚举数组集合
+        boolean isEnumArray = componentType != null && FieldTypeUtils.isEnum(componentType);
+        if(isEnumArray) {
+            PsiClass enumPsiClass = JavaPsiFacade.getInstance(project).findClass(componentType.getCanonicalText(),
+                    GlobalSearchScope.projectScope(project));
             if (enumPsiClass != null) {
                 description += (": " + getEnumConstantsDescription(enumPsiClass));
             }
         }
+
         return description;
     }
 

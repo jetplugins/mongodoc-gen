@@ -94,7 +94,7 @@ public class FieldTypeUtils {
     /**
      * 获取定义的简单类型(非数组，非嵌套对象)
      */
-    private static String getSimpleType(PsiType type) {
+    public static String getSimpleType(PsiType type) {
         boolean isEnum = FieldTypeUtils.isEnum(type);
         if (isEnum) {
             return CommonConstants.TYPE_NAME_ENUM;
@@ -103,14 +103,6 @@ public class FieldTypeUtils {
         return typeProperties.getProperty(type.getCanonicalText(), CommonConstants.TYPE_NAME_OBJECT);
     }
 
-
-    /**
-     * 获取字段类型
-     */
-    public static String getFieldType(String fieldJavaType) {
-        Properties typeProperties = getTypeProperties();
-        return typeProperties.getProperty(fieldJavaType);
-    }
 
     @SneakyThrows
     public static Properties getTypeProperties() {
