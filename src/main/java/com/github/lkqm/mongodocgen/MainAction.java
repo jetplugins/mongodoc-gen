@@ -5,6 +5,7 @@ import cn.smallbun.screw.core.engine.EngineConfig;
 import cn.smallbun.screw.core.engine.EngineFileType;
 import cn.smallbun.screw.core.engine.EngineTemplateType;
 import com.github.lkqm.mongodocgen.screw.MongoDocumentationExecute;
+import com.github.lkqm.mongodocgen.util.NotificationUtils;
 import com.github.lkqm.mongodocgen.util.PsiUtils;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
@@ -52,6 +53,7 @@ public class MainAction extends AnAction {
         List<PsiClass> psiClassList = PsiUtils.getPsiClassByJavaFile(psiFiles);
         new MongoDocumentationExecute(config, psiClassList)
                 .execute();
+        NotificationUtils.notifyInfo("Generate mongodb doc successful.");
     }
 
     @SneakyThrows

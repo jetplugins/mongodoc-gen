@@ -4,6 +4,7 @@ import com.github.lkqm.mongodocgen.constant.CommonConstants;
 import com.intellij.psi.PsiArrayType;
 import com.intellij.psi.PsiField;
 import com.intellij.psi.PsiType;
+import com.intellij.psi.impl.source.PsiClassReferenceType;
 import java.io.InputStream;
 import java.util.Properties;
 import lombok.SneakyThrows;
@@ -75,13 +76,31 @@ public class FieldTypeUtils {
     /**
      * 获取字段类型
      */
-    public static String getFieldType(PsiField psiField) {
-        PsiType psiType = psiField.getType();
-        if (isArrayOrCollection(psiType)) {
-            return CommonConstants.TYPE_NAME_ARRAY;
+    public static String getFieldType(PsiField field) {
+        PsiType type = field.getType();
+        // 数组类型处理
+        if (FieldTypeUtils.isArray(type)) {
+            PsiArrayType arrayType = (PsiArrayType) type;
+            PsiType componentType = arrayType.getComponentType();
+            return getSimpleType(componentType) + "[]";
+        } else if (FieldTypeUtils.isCollection(type)) {
+            PsiClassReferenceType type1 = (PsiClassReferenceType) type;
+            PsiType componentType = type1.getParameters().length > 0?type1.getParameters()[0]:null;
+            return getSimpleType(componentType) + "[]";
+        }
+        return getSimpleType(type);
+    }
+
+    /**
+     * 获取定义的简单类型(非数组，非嵌套对象)
+     */
+    private static String getSimpleType(PsiType type) {
+        boolean isEnum = FieldTypeUtils.isEnum(type);
+        if (isEnum) {
+            return CommonConstants.TYPE_NAME_ENUM;
         }
         Properties typeProperties = getTypeProperties();
-        return typeProperties.getProperty(psiType.getCanonicalText(), CommonConstants.TYPE_NAME_OBJECT);
+        return typeProperties.getProperty(type.getCanonicalText(), CommonConstants.TYPE_NAME_OBJECT);
     }
 
 

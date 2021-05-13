@@ -27,6 +27,7 @@ import com.intellij.psi.javadoc.PsiDocToken;
 import com.intellij.psi.search.GlobalSearchScope;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import lombok.experimental.UtilityClass;
 import org.apache.commons.lang3.StringUtils;
 
@@ -112,17 +113,6 @@ public class EntityParsePsiUtils {
             column.setDeprecated(isDeprecated(field));
 
             // 复杂类型处理
-            boolean isEnum = FieldTypeUtils.isEnum(type);
-            if (isEnum) {
-                column.setColumnType(CommonConstants.TYPE_NAME_ENUM);
-                PsiClass enumPsiClass = JavaPsiFacade.getInstance(project)
-                        .findClass(type.getCanonicalText(), GlobalSearchScope.projectScope(project));
-                if (enumPsiClass != null) {
-                    String remarks = column.getRemarks() + ", " + getEnumConstantsDescription(enumPsiClass);
-                    column.setRemarks(remarks);
-                }
-            }
-
             PsiClass fieldPsiClass = null;
             boolean isBean = CommonConstants.TYPE_NAME_OBJECT.equals(column.getColumnType()) && !FieldTypeUtils.isMap(
                     type);
@@ -131,14 +121,14 @@ public class EntityParsePsiUtils {
                         .findClass(type.getCanonicalText(), GlobalSearchScope.projectScope(project));
             } else if (FieldTypeUtils.isArray(type)) {
                 PsiArrayType arrayType = (PsiArrayType) type;
+                PsiType componentType = arrayType.getComponentType();
                 fieldPsiClass = JavaPsiFacade.getInstance(project)
-                        .findClass(arrayType.getComponentType().getCanonicalText(),
-                                GlobalSearchScope.projectScope(project));
+                        .findClass(componentType.getCanonicalText(), GlobalSearchScope.projectScope(project));
             } else if (FieldTypeUtils.isCollection(type)) {
                 PsiClassReferenceType type1 = (PsiClassReferenceType) type;
+                PsiType componentType = type1.getParameters()[0];
                 fieldPsiClass = JavaPsiFacade.getInstance(project)
-                        .findClass(type1.getParameters()[0].getCanonicalText(),
-                                GlobalSearchScope.projectScope(project));
+                        .findClass(componentType.getCanonicalText(), GlobalSearchScope.projectScope(project));
             }
             if (fieldPsiClass != null && !fieldsChain.contains(fieldPsiClass)) {
                 List<PsiClass> theChain = Lists.newArrayList(fieldsChain);
@@ -187,8 +177,20 @@ public class EntityParsePsiUtils {
     /**
      * 获取字段的描述
      */
-    public static String getFieldDescription(PsiField psiField) {
-        return getCommentDescription(psiField);
+    public static String getFieldDescription(PsiField field) {
+        String description = getCommentDescription(field);
+        description = Objects.nonNull(description)?description+": " :"";
+
+        PsiType type = field.getType();
+        boolean isEnum = FieldTypeUtils.isEnum(type);
+        if (isEnum) {
+            PsiClass enumPsiClass = JavaPsiFacade.getInstance(field.getProject()).findClass(type.getCanonicalText(),
+                    GlobalSearchScope.projectScope(field.getProject()));
+            if (enumPsiClass != null) {
+                description += getEnumConstantsDescription(enumPsiClass);
+            }
+        }
+        return description;
     }
 
     /**
@@ -233,9 +235,9 @@ public class EntityParsePsiUtils {
         for (PsiField field : psiClass.getFields()) {
             if (field instanceof PsiEnumConstant) {
                 sb.append(field.getName());
-                String description = getFieldDescription(field);
+                String description = getCommentDescription(field);
                 if (StringUtils.isNotEmpty(description)) {
-                    sb.append(":(").append(description).append(")");
+                    sb.append("(").append(description).append(")");
                 }
                 sb.append(", ");
             }

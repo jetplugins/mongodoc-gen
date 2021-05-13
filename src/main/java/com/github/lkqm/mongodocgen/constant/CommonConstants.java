@@ -5,7 +5,8 @@ package com.github.lkqm.mongodocgen.constant;
  */
 public interface CommonConstants {
 
-    String TYPE_NAME_ARRAY = "array";
+    /** 插件名称 */
+    String NAME = "Mongodoc Gen";
 
     String TYPE_NAME_OBJECT = "object";
 
