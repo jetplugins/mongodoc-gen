@@ -179,7 +179,7 @@ public class EntityParsePsiUtils {
      */
     public static String getFieldDescription(PsiField field) {
         String description = getCommentDescription(field);
-        description = Objects.nonNull(description)?description+": " :"";
+        description = Objects.nonNull(description)?description :"";
 
         PsiType type = field.getType();
         boolean isEnum = FieldTypeUtils.isEnum(type);
@@ -187,7 +187,7 @@ public class EntityParsePsiUtils {
             PsiClass enumPsiClass = JavaPsiFacade.getInstance(field.getProject()).findClass(type.getCanonicalText(),
                     GlobalSearchScope.projectScope(field.getProject()));
             if (enumPsiClass != null) {
-                description += getEnumConstantsDescription(enumPsiClass);
+                description += (": " + getEnumConstantsDescription(enumPsiClass));
             }
         }
         return description;
