@@ -1,10 +1,9 @@
 package com.github.lkqm.mongodocgen;
 
-import cn.smallbun.screw.core.Configuration;
-import cn.smallbun.screw.core.engine.EngineConfig;
-import cn.smallbun.screw.core.engine.EngineFileType;
-import cn.smallbun.screw.core.engine.EngineTemplateType;
-import com.github.lkqm.mongodocgen.screw.MongoDocumentationExecute;
+import com.github.lkqm.mongodocgen.screw.Configuration;
+import com.github.lkqm.mongodocgen.screw.engine.EngineConfig;
+import com.github.lkqm.mongodocgen.screw.engine.EngineFileType;
+import com.github.lkqm.mongodocgen.screw.DocumentationExecute;
 import com.github.lkqm.mongodocgen.util.NotificationUtils;
 import com.github.lkqm.mongodocgen.util.PsiUtils;
 import com.intellij.openapi.actionSystem.AnAction;
@@ -43,7 +42,6 @@ public class MainAction extends AnAction {
         config.setEngineConfig(EngineConfig.builder()
                 .fileOutputDir(outputDir)
                 .fileType(EngineFileType.MD)
-                .produceType(EngineTemplateType.velocity)
                 .templateContent(getTemplateContent())
                 .fileName(config.getTitle())
                 .build()
@@ -51,7 +49,7 @@ public class MainAction extends AnAction {
 
         List<PsiJavaFile> psiFiles = PsiUtils.listModulePsiJavaFiles(module);
         List<PsiClass> psiClassList = PsiUtils.getPsiClassByJavaFile(psiFiles);
-        new MongoDocumentationExecute(config, psiClassList)
+        new DocumentationExecute(config, psiClassList)
                 .execute();
         NotificationUtils.notifyInfo("Generate mongodb doc successful.");
     }

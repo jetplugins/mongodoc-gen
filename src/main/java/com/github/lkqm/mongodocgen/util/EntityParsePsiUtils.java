@@ -2,9 +2,8 @@ package com.github.lkqm.mongodocgen.util;
 
 import static java.util.Objects.nonNull;
 
-import cn.smallbun.screw.core.constant.DefaultConstants;
-import cn.smallbun.screw.core.metadata.model.ColumnModel;
-import cn.smallbun.screw.core.metadata.model.TableModel;
+import com.github.lkqm.mongodocgen.screw.model.ColumnModel;
+import com.github.lkqm.mongodocgen.screw.model.TableModel;
 import com.github.lkqm.mongodocgen.constant.CommonConstants;
 import com.google.common.collect.Lists;
 import com.intellij.codeInsight.AnnotationUtil;
@@ -107,7 +106,7 @@ public class EntityParsePsiUtils {
             column.setColumnName(getFieldName(field));
             column.setColumnType(getFieldType(field));
             column.setRemarks(getFieldDescription(field));
-            column.setPrimaryKey(isFieldPrimaryKey(field) ? DefaultConstants.Y : DefaultConstants.N);
+            column.setPrimaryKey(isFieldPrimaryKey(field) ? CommonConstants.Y : CommonConstants.N);
             column.setDeprecated(isDeprecated(field));
             column.setNestedTable(getFieldNestedTable(fieldsChain, field, column.getColumnType()));
         }

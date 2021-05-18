@@ -1,28 +1,30 @@
 package com.github.lkqm.mongodocgen.screw;
 
-import cn.smallbun.screw.core.Configuration;
-import cn.smallbun.screw.core.metadata.model.DataModel;
-import cn.smallbun.screw.core.metadata.model.TableModel;
-import cn.smallbun.screw.core.process.AbstractProcess;
+import com.github.lkqm.mongodocgen.screw.model.DataModel;
+import com.github.lkqm.mongodocgen.screw.model.TableModel;
 import com.github.lkqm.mongodocgen.util.EntityParsePsiUtils;
 import com.google.common.collect.Lists;
 import com.intellij.psi.PsiClass;
 import java.util.Comparator;
 import java.util.List;
+import lombok.AllArgsConstructor;
+import lombok.NonNull;
 
 /**
  * 数据模型处理
  */
-public class MongoDataModelProcess extends AbstractProcess {
+@AllArgsConstructor
+public class DataModelProcess {
 
+    @NonNull
+    private final Configuration config;
+
+    @NonNull
     private final List<PsiClass> psiClasses;
 
-    public MongoDataModelProcess(Configuration configuration, List<PsiClass> psiClasses) {
-        super(configuration);
-        this.psiClasses = psiClasses;
-    }
-
-    @Override
+    /**
+     * 获取数据
+     */
     public DataModel process() {
         DataModel model = new DataModel();
         model.setTitle(config.getTitle());
@@ -38,6 +40,5 @@ public class MongoDataModelProcess extends AbstractProcess {
         model.getTables().sort(Comparator.comparing(TableModel::getTableName));
         return model;
     }
-
 
 }

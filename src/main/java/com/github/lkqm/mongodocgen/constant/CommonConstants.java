@@ -1,12 +1,20 @@
 package com.github.lkqm.mongodocgen.constant;
 
+import java.nio.charset.StandardCharsets;
+
 /**
  * 公共默认常量集合.
  */
 public interface CommonConstants {
 
-    /** 插件名称 */
+    /**
+     * 插件名称
+     */
     String NAME = "Mongodoc Gen";
+
+    String DEFAULT_ENCODING = StandardCharsets.UTF_8.name();
+    String N = "N";
+    String Y = "Y";
 
     String TYPE_NAME_OBJECT = "object";
 
