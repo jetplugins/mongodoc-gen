@@ -1,6 +1,7 @@
 <idea-plugin>
     <id>com.github.lkqm.mongodoc-gen</id>
     <name>Mongodoc Gen</name>
+    <version>0.0.3</version>
     <vendor email="luokaiqiongmou@foxmail.com" url="https://github.com/lkqm">lkqm</vendor>
 
     <description><![CDATA[
@@ -37,23 +38,19 @@
     </actions>
 
     <change-notes><![CDATA[
+      <p>0.0.3</p>
+      <ul>
+        <li>1.降低插件包大小(Reduce package size)</li>
+      </ul>
       <p>0.0.2</p>
       <ul>
-        <li>1.Supports @Deprecated.</li>
-        <li>2.Optimize array type.</li>
-        <li>3.Add message tips after generated.</li>
-      </ul>
-      <ul>
-        <li>1.支持字段过期标记</li>
-        <li>2.优化数组字段类型</li>
-        <li>3.生成文档后消息提示</li>
+        <li>1.支持字段过期标记(Supports @Deprecated)</li>
+        <li>2.优化数组字段类型(Optimize array type)</li>
+        <li>3.生成文档后消息提示(Add message tips after generated)</li>
       </ul>
       <p>0.0.1</p>
       <ul>
-        <li>1.Generate mongodb document from Java entity class.</li>
-      </ul>
-      <ul>
-        <li>1.一键生成mongodb数据库文档从实体类注释文档.</li>
+        <li>1.初始提交(Initial commit).</li>
       </ul>
       ]]></change-notes>
 </idea-plugin>
