@@ -36,7 +36,7 @@ public interface CommonConstants {
 
     String COLLECTION_CLASS = "java.util.Collection";
 
-    String MAP_CLASS = "java.util.Collection";
+    String MAP_CLASS = "java.util.Map";
 
     String OBJECT_CLASS = "java.lang.Object";
 

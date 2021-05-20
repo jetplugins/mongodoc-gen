@@ -1,0 +1,60 @@
+${markdown.h1} ${_data.title}
+
+#if(${_data.database})
+**数据库名：** $!{_data.database}
+
+#end
+#if(${_data.version})
+**文档版本：** $!{_data.version}
+
+#end
+#if(${_data.description})
+**文档描述：** $!{_data.description}
+#end
+
+| 序号 | 表名                  | 说明       |
+| :---: | :--- | :--- |
+#foreach($t in $_data.tables)
+#if(${t.deprecated})
+  #set($deprecatedMarkdown = '~~')
+#else
+  #set($deprecatedMarkdown = '')
+#end
+| $!{velocityCount} | $!{deprecatedMarkdown}[$!{t.tableName}](#$!{t.tableName})$!{deprecatedMarkdown} | $!{t.remarks} |
+#end
+#foreach($t in $_data.tables)
+
+${markdown.h2} <a id="$!{t.tableName}">$!{t.tableName}</a>
+描述：$!{t.remarks}
+
+| 序号 | 名称 | 数据类型 | 主键 | 说明 |
+| :---: | :--- | :---: | :---: | :--- |
+#foreach($c in $t.columns)
+#if(${c.deprecated})
+  #set($deprecatedMarkdown = '~~')
+#else
+  #set($deprecatedMarkdown = '')
+#end
+| $!{velocityCount} | $!{deprecatedMarkdown}$!{c.columnName}$!{deprecatedMarkdown} | $!{c.columnType} | $!{c.primaryKey} | $!{c.remarks} |
+#set($nt1 = $c.nestedTable)
+#foreach($c in $nt1.columns)
+#if(${c.deprecated})
+  #set($deprecatedMarkdown = '~~')
+#else
+  #set($deprecatedMarkdown = '')
+#end
+| | &nbsp;&nbsp;- $!{deprecatedMarkdown}$!{c.columnName}$!{deprecatedMarkdown} | $!{c.columnType} | $!{c.primaryKey} | $!{c.remarks} |
+#set($nt2 = $c.nestedTable)
+#foreach($c in $nt2.columns)
+#if(${c.deprecated})
+  #set($deprecatedMarkdown = '~~')
+#else
+  #set($deprecatedMarkdown = '')
+#end
+| | &nbsp;&nbsp;&nbsp;&nbsp;- $!{deprecatedMarkdown}$!{c.columnName}$!{deprecatedMarkdown} | $!{c.columnType} | $!{c.primaryKey} | $!{c.remarks} |
+#end
+#set($nt2 = "")
+#end
+#set($nt1 = "")
+#end
+#end
