@@ -1,11 +1,7 @@
 package com.github.lkqm.mongodocgen.screw;
 
 import com.github.lkqm.mongodocgen.screw.engine.EngineConfig;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
-@Data
-@NoArgsConstructor
 public class Configuration {
 
     /**
@@ -38,4 +34,63 @@ public class Configuration {
      */
     private EngineConfig engineConfig;
 
+    public String getOrganization() {
+        return organization;
+    }
+
+    public void setOrganization(String organization) {
+        this.organization = organization;
+    }
+
+    public String getOrganizationUrl() {
+        return organizationUrl;
+    }
+
+    public void setOrganizationUrl(String organizationUrl) {
+        this.organizationUrl = organizationUrl;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getVersion() {
+        return version;
+    }
+
+    public void setVersion(String version) {
+        this.version = version;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public EngineConfig getEngineConfig() {
+        return engineConfig;
+    }
+
+    public void setEngineConfig(EngineConfig engineConfig) {
+        this.engineConfig = engineConfig;
+    }
+
+    @Override
+    public String toString() {
+        return "Configuration{" +
+                "organization='" + organization + '\'' +
+                ", organizationUrl='" + organizationUrl + '\'' +
+                ", title='" + title + '\'' +
+                ", version='" + version + '\'' +
+                ", description='" + description + '\'' +
+                ", engineConfig=" + engineConfig +
+                '}';
+    }
 }

@@ -1,9 +1,9 @@
 package com.github.lkqm.mongodocgen;
 
 import com.github.lkqm.mongodocgen.screw.Configuration;
+import com.github.lkqm.mongodocgen.screw.DocumentationExecute;
 import com.github.lkqm.mongodocgen.screw.engine.EngineConfig;
 import com.github.lkqm.mongodocgen.screw.engine.EngineFileType;
-import com.github.lkqm.mongodocgen.screw.DocumentationExecute;
 import com.github.lkqm.mongodocgen.util.NotificationUtils;
 import com.github.lkqm.mongodocgen.util.PsiUtils;
 import com.google.common.io.Resources;
@@ -17,10 +17,10 @@ import com.intellij.openapi.roots.ModuleRootManager;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.PsiClass;
 import com.intellij.psi.PsiJavaFile;
+import java.io.IOException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
-import lombok.SneakyThrows;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -33,34 +33,39 @@ public class MainAction extends AnAction {
         Project project = e.getRequiredData(CommonDataKeys.PROJECT);
         VirtualFile vf = e.getRequiredData(CommonDataKeys.VIRTUAL_FILE);
         Module module = ModuleUtil.findModuleForFile(vf, project);
-        if (module == null) {
-            return;
-        }
-
-        String outputDir =
-                ModuleRootManager.getInstance(module).getContentRoots()[0].getPath() + "/target/mongodoc-gent";
-
+        if (module == null) return;
+        // 配置
         Configuration config = new Configuration();
         config.setTitle(module.getName());
-        config.setEngineConfig(EngineConfig.builder()
-                .fileOutputDir(outputDir)
-                .fileType(EngineFileType.MD)
-                .templateContent(getTemplateContent())
-                .fileName(config.getTitle())
-                .build()
-        );
-
+        config.setEngineConfig(getEngineConfig(module));
+        // 解析
         List<PsiJavaFile> psiFiles = PsiUtils.listModulePsiJavaFiles(module);
         List<PsiClass> psiClassList = PsiUtils.getPsiClassByJavaFile(psiFiles);
-        new DocumentationExecute(config, psiClassList)
-                .execute();
+        // 生成文档
+        new DocumentationExecute(config, psiClassList).execute();
         NotificationUtils.notifyInfo("Generate mongodb doc successful.");
     }
 
-    @SneakyThrows
-    private String getTemplateContent() {
+    @SuppressWarnings("All")
+    private EngineConfig getEngineConfig(Module module) {
+        String outputDir = ModuleRootManager.getInstance(module).getContentRoots()[0].getPath()
+                + "/target/mongodoc-gent";
+        EngineConfig engineConfig = new EngineConfig();
+        engineConfig.setFileOutputDir(outputDir);
+        engineConfig.setFileName(module.getName());
+        engineConfig.setFileType(EngineFileType.MD);
+
+        // 读取模板
         URL resource = Resources.getResource(this.getClass(), "/template.md.vm");
-        return Resources.toString(resource, StandardCharsets.UTF_8);
+        String template = null;
+        try {
+            template = Resources.toString(resource, StandardCharsets.UTF_8);
+        } catch (IOException e) {
+            throw new RuntimeException("Read document template failed!", e);
+        }
+        engineConfig.setTemplateContent(template);
+
+        return engineConfig;
     }
 
 

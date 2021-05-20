@@ -3,10 +3,8 @@ package com.github.lkqm.mongodocgen.screw.engine;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import java.io.File;
-import lombok.Data;
 import org.apache.commons.lang3.StringUtils;
 
-@Data
 public abstract class AbstractTemplateEngine implements TemplateEngine {
 
     private EngineConfig engineConfig;
@@ -14,6 +12,10 @@ public abstract class AbstractTemplateEngine implements TemplateEngine {
     protected AbstractTemplateEngine(EngineConfig engineConfig) {
         checkNotNull(engineConfig, "EngineConfig can not be empty!");
         this.engineConfig = engineConfig;
+    }
+
+    public EngineConfig getEngineConfig() {
+        return engineConfig;
     }
 
     /**

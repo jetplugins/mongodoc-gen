@@ -1,14 +1,10 @@
 package com.github.lkqm.mongodocgen.screw.engine;
 
 import java.io.Serializable;
-import lombok.Builder;
-import lombok.Data;
 
 /**
  * 文件生成配置
  */
-@Data
-@Builder
 public class EngineConfig implements Serializable {
 
     /**
@@ -36,4 +32,56 @@ public class EngineConfig implements Serializable {
      */
     private String templateContent;
 
+
+
+    public String getFileOutputDir() {
+        return fileOutputDir;
+    }
+
+    public void setFileOutputDir(String fileOutputDir) {
+        this.fileOutputDir = fileOutputDir;
+    }
+
+    public EngineFileType getFileType() {
+        return fileType;
+    }
+
+    public void setFileType(EngineFileType fileType) {
+        this.fileType = fileType;
+    }
+
+    public String getCustomTemplate() {
+        return customTemplate;
+    }
+
+    public void setCustomTemplate(String customTemplate) {
+        this.customTemplate = customTemplate;
+    }
+
+    public String getFileName() {
+        return fileName;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
+    }
+
+    public String getTemplateContent() {
+        return templateContent;
+    }
+
+    public void setTemplateContent(String templateContent) {
+        this.templateContent = templateContent;
+    }
+
+    @Override
+    public String toString() {
+        return "EngineConfig{" +
+                "fileOutputDir='" + fileOutputDir + '\'' +
+                ", fileType=" + fileType +
+                ", customTemplate='" + customTemplate + '\'' +
+                ", fileName='" + fileName + '\'' +
+                ", templateContent='" + templateContent + '\'' +
+                '}';
+    }
 }

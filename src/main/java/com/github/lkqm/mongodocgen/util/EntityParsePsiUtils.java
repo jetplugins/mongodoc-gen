@@ -2,9 +2,9 @@ package com.github.lkqm.mongodocgen.util;
 
 import static java.util.Objects.nonNull;
 
+import com.github.lkqm.mongodocgen.constant.CommonConstants;
 import com.github.lkqm.mongodocgen.screw.model.ColumnModel;
 import com.github.lkqm.mongodocgen.screw.model.TableModel;
-import com.github.lkqm.mongodocgen.constant.CommonConstants;
 import com.google.common.collect.Lists;
 import com.intellij.codeInsight.AnnotationUtil;
 import com.intellij.openapi.project.Project;
@@ -27,14 +27,14 @@ import com.intellij.psi.search.GlobalSearchScope;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
-import lombok.experimental.UtilityClass;
 import org.apache.commons.lang3.StringUtils;
 
 /**
  * 实体解析工具类.
  */
-@UtilityClass
-public class EntityParsePsiUtils {
+public final class EntityParsePsiUtils {
+
+    private EntityParsePsiUtils() {}
 
     /**
      * 解析获取数据表模型
@@ -140,7 +140,7 @@ public class EntityParsePsiUtils {
 
         // 非对象数组
         if(componentType != null) {
-            String simpleType = FieldTypeUtils.getSimpleType(componentType);
+            String simpleType = FieldTypeUtils.getFieldSimpleType(componentType);
             if(simpleType != null && !simpleType.equals(CommonConstants.TYPE_NAME_OBJECT)) {
                 return null;
             }

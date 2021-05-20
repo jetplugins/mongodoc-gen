@@ -10,13 +10,17 @@ import com.intellij.openapi.roots.ModuleRootManager;
 import com.intellij.psi.PsiClass;
 import com.intellij.psi.PsiJavaFile;
 import com.intellij.psi.PsiManager;
-import lombok.experimental.UtilityClass;
 
 import java.util.Arrays;
 import java.util.List;
 
-@UtilityClass
-public class PsiUtils {
+/**
+ * Psi相关工具类方法
+ */
+public final class PsiUtils {
+
+    private PsiUtils() {
+    }
 
     /**
      * 获取模块下所有的Java文件
