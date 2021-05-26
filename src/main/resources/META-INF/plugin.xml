@@ -19,6 +19,7 @@
             <li>生成的文档在模块目录下"target/mongodoc-gen"</li>
         </ul>
     ]]></description>
+    <idea-version since-build="193.7288.26"/>
 
     <!-- please see https://plugins.jetbrains.com/docs/intellij/plugin-compatibility.html
          on how to target different products -->
