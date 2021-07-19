@@ -12,8 +12,7 @@ import com.intellij.notification.Notifications;
  */
 public final class NotificationUtils {
 
-    private static final NotificationGroup DEFAULT_GROUP = new NotificationGroup(CommonConstants.NAME,
-            NotificationDisplayType.NONE, true);
+    private static final NotificationGroup DEFAULT_GROUP = NotificationGroup.logOnlyGroup(CommonConstants.NAME);
 
     /**
      * 提示普通消息
