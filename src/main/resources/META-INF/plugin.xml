@@ -45,7 +45,9 @@
     <change-notes><![CDATA[
       <p>0.0.4</p>
       <ul>
-        <li>1.增加嵌入文档跳转(Add link to embeded document.)</li>
+        <li>1.增加嵌入文档跳转(Add link to embeded document)</li>
+        <li>2.增加Json数据文件输出(Add output to json file)</li>
+        <li>3.模板增加生成日期(Add generated at time)</li>
       </ul>
       <p>0.0.3</p>
       <ul>

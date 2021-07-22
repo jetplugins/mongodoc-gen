@@ -4,6 +4,7 @@ import static java.util.Objects.nonNull;
 
 import com.github.lkqm.mongodocgen.constant.CommonConstants;
 import com.github.lkqm.mongodocgen.screw.model.ColumnModel;
+import com.github.lkqm.mongodocgen.screw.model.NestedResolveResult;
 import com.github.lkqm.mongodocgen.screw.model.TableModel;
 import com.google.common.collect.Lists;
 import com.intellij.codeInsight.AnnotationUtil;
@@ -108,7 +109,12 @@ public final class EntityParsePsiUtils {
             column.setRemarks(getFieldDescription(field));
             column.setPrimaryKey(isFieldPrimaryKey(field) ? CommonConstants.Y : CommonConstants.N);
             column.setDeprecated(isDeprecated(field));
-            column.setNestedTable(getFieldNestedTable(fieldsChain, field, column.getColumnType()));
+            NestedResolveResult result = getFieldNestedTable(fieldsChain, field, column.getColumnType());
+            column.setNestedTable(result.getTable());
+            column.setLinkTable(result.getLinkTable());
+            if(StringUtils.isNotEmpty(column.getLinkTable())) {
+                column.setLinkTableText(" #" + column.getLinkTable());
+            }
         }
         return columns;
     }
@@ -116,7 +122,10 @@ public final class EntityParsePsiUtils {
     /**
      * 获取字段嵌套数据
      */
-    private static TableModel getFieldNestedTable(List<PsiClass> fieldsChain, PsiField field, String columnType) {
+    private static NestedResolveResult getFieldNestedTable(List<PsiClass> fieldsChain, PsiField field, String columnType) {
+        NestedResolveResult result = new NestedResolveResult();
+        result.setNested(false);
+
         Project project = field.getProject();
         PsiType type = field.getType();
 
@@ -142,16 +151,24 @@ public final class EntityParsePsiUtils {
         if(componentType != null) {
             String simpleType = FieldTypeUtils.getFieldSimpleType(componentType);
             if(simpleType != null && !simpleType.equals(CommonConstants.TYPE_NAME_OBJECT)) {
-                return null;
+                return result;
             }
         }
 
         if (fieldPsiClass != null && !fieldsChain.contains(fieldPsiClass)) {
             List<PsiClass> theChain = Lists.newArrayList(fieldsChain);
             theChain.add(fieldPsiClass);
-            return getTableModel(fieldPsiClass, theChain);
+            TableModel tableModel = getTableModel(fieldPsiClass, theChain);
+            result.setNested(true);
+            result.setTable(tableModel);
+            // 嵌套类型是否是集合类
+            PsiAnnotation documentAnnotation = fieldPsiClass.getAnnotation(CommonConstants.DOCUMENT_ANNOTATION);
+            if(documentAnnotation != null ) {
+                result.setLinkTable(getCollectionName(fieldPsiClass));
+                result.setLinkClass(fieldPsiClass.getQualifiedName());
+            }
         }
-        return null;
+        return result;
     }
 
     /**

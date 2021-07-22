@@ -1,6 +1,7 @@
 package com.github.lkqm.mongodocgen.screw;
 
 import com.github.lkqm.mongodocgen.screw.engine.EngineConfig;
+import java.util.List;
 
 public class Configuration {
 
@@ -32,7 +33,7 @@ public class Configuration {
     /**
      * 引擎配置，关于数据库文档生成相关配置
      */
-    private EngineConfig engineConfig;
+    private List<EngineConfig> engineConfigs;
 
     public String getOrganization() {
         return organization;
@@ -74,12 +75,12 @@ public class Configuration {
         this.description = description;
     }
 
-    public EngineConfig getEngineConfig() {
-        return engineConfig;
+    public List<EngineConfig> getEngineConfigs() {
+        return engineConfigs;
     }
 
-    public void setEngineConfig(EngineConfig engineConfig) {
-        this.engineConfig = engineConfig;
+    public void setEngineConfigs(List<EngineConfig> engineConfigs) {
+        this.engineConfigs = engineConfigs;
     }
 
     @Override
@@ -90,7 +91,7 @@ public class Configuration {
                 ", title='" + title + '\'' +
                 ", version='" + version + '\'' +
                 ", description='" + description + '\'' +
-                ", engineConfig=" + engineConfig +
+                ", engineConfigs=" + engineConfigs +
                 '}';
     }
 }

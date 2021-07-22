@@ -20,7 +20,11 @@ public enum EngineFileType implements Serializable {
     /**
      * MD
      */
-    MD(".md", "documentation_md", "Markdown文件");
+    MD(".md", "documentation_md", "Markdown文件"),
+    /**
+     * MD
+     */
+    JSON(".json", "documentation_json", "Json文件");
 
     /**
      * 文件后缀

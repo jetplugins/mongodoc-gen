@@ -8,8 +8,10 @@ import java.io.BufferedWriter;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.util.Date;
 import java.util.HashMap;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.time.DateFormatUtils;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
 import org.apache.velocity.app.VelocityEngine;
@@ -78,6 +80,7 @@ public class VelocityTemplateEngine extends AbstractTemplateEngine {
                         put("h5", "#####");
                     }
                 });
+                context.put("generatedTime", DateFormatUtils.format(new Date(), "yyyy-MM-dd HH:mm"));
                 velocityEngine.evaluate(context, sw, "test", templateContent);
             }
         } catch (IOException e) {

@@ -67,6 +67,13 @@ public class ColumnModel {
      */
     private Boolean deprecated;
 
+    /**
+     * 关联表
+     */
+    private String linkTable;
+
+    private String linkTableText;
+
     public String getOrdinalPosition() {
         return ordinalPosition;
     }
@@ -171,22 +178,19 @@ public class ColumnModel {
         this.deprecated = deprecated;
     }
 
-    @Override
-    public String toString() {
-        return "ColumnModel{" +
-                "ordinalPosition='" + ordinalPosition + '\'' +
-                ", columnName='" + columnName + '\'' +
-                ", columnType='" + columnType + '\'' +
-                ", typeName='" + typeName + '\'' +
-                ", columnLength='" + columnLength + '\'' +
-                ", columnSize='" + columnSize + '\'' +
-                ", decimalDigits='" + decimalDigits + '\'' +
-                ", nullable='" + nullable + '\'' +
-                ", primaryKey='" + primaryKey + '\'' +
-                ", columnDef='" + columnDef + '\'' +
-                ", remarks='" + remarks + '\'' +
-                ", nestedTable=" + nestedTable +
-                ", deprecated=" + deprecated +
-                '}';
+    public String getLinkTable() {
+        return linkTable;
+    }
+
+    public void setLinkTable(String linkTable) {
+        this.linkTable = linkTable;
+    }
+
+    public String getLinkTableText() {
+        return linkTableText;
+    }
+
+    public void setLinkTableText(String linkTableText) {
+        this.linkTableText = linkTableText;
     }
 }

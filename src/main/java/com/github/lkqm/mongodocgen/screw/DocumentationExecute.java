@@ -2,6 +2,9 @@ package com.github.lkqm.mongodocgen.screw;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import com.github.lkqm.mongodocgen.screw.engine.EngineConfig;
+import com.github.lkqm.mongodocgen.screw.engine.EngineFileType;
+import com.github.lkqm.mongodocgen.screw.engine.JsonTemplateEngine;
 import com.github.lkqm.mongodocgen.screw.engine.TemplateEngine;
 import com.github.lkqm.mongodocgen.screw.engine.VelocityTemplateEngine;
 import com.github.lkqm.mongodocgen.screw.model.DataModel;
@@ -26,13 +29,25 @@ public class DocumentationExecute {
 
     public void execute() {
         DataModel dataModel = new DataModelProcess(config, psiClasses).process();
-        TemplateEngine produce = new VelocityTemplateEngine(config.getEngineConfig());
-        produce.produce(dataModel, getDocName());
+        for (EngineConfig engineConfig : config.getEngineConfigs()) {
+            TemplateEngine produce = null;
+            switch (engineConfig.getFileType()) {
+                case MD:
+                    produce = new VelocityTemplateEngine(engineConfig);
+                    break;
+                case JSON:
+                    produce = new JsonTemplateEngine(engineConfig);
+                    break;
+                default:
+                    continue;
+            }
+            produce.produce(dataModel, getDocName(engineConfig));
+        }
     }
 
-    private String getDocName() {
-        if (StringUtils.isNotBlank(config.getEngineConfig().getFileName())) {
-            return config.getEngineConfig().getFileName();
+    private String getDocName(EngineConfig engineConfig) {
+        if (StringUtils.isNotBlank(engineConfig.getFileName())) {
+            return engineConfig.getFileName();
         }
         String version = config.getVersion();
         if (StringUtils.isNotBlank(version)) {

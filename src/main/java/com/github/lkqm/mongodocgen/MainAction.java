@@ -6,6 +6,7 @@ import com.github.lkqm.mongodocgen.screw.engine.EngineConfig;
 import com.github.lkqm.mongodocgen.screw.engine.EngineFileType;
 import com.github.lkqm.mongodocgen.util.NotificationUtils;
 import com.github.lkqm.mongodocgen.util.PsiUtils;
+import com.google.common.collect.Lists;
 import com.google.common.io.Resources;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
@@ -37,7 +38,7 @@ public class MainAction extends AnAction {
         // 配置
         Configuration config = new Configuration();
         config.setTitle(module.getName());
-        config.setEngineConfig(getEngineConfig(module));
+        config.setEngineConfigs(getEngineConfigs(module));
         // 解析
         List<PsiJavaFile> psiFiles = PsiUtils.listModulePsiJavaFiles(module);
         List<PsiClass> psiClassList = PsiUtils.getPsiClassByJavaFile(psiFiles);
@@ -47,15 +48,14 @@ public class MainAction extends AnAction {
     }
 
     @SuppressWarnings("All")
-    private EngineConfig getEngineConfig(Module module) {
+    private List<EngineConfig> getEngineConfigs(Module module) {
         String outputDir = ModuleRootManager.getInstance(module).getContentRoots()[0].getPath()
                 + "/target/mongodoc-gent";
-        EngineConfig engineConfig = new EngineConfig();
-        engineConfig.setFileOutputDir(outputDir);
-        engineConfig.setFileName(module.getName());
-        engineConfig.setFileType(EngineFileType.MD);
-
-        // 读取模板
+        // markdown
+        EngineConfig mdEngineConfig = new EngineConfig();
+        mdEngineConfig.setFileOutputDir(outputDir);
+        mdEngineConfig.setFileName(module.getName());
+        mdEngineConfig.setFileType(EngineFileType.MD);
         URL resource = Resources.getResource(this.getClass(), "/template.md.vm");
         String template = null;
         try {
@@ -63,9 +63,15 @@ public class MainAction extends AnAction {
         } catch (IOException e) {
             throw new RuntimeException("Read document template failed!", e);
         }
-        engineConfig.setTemplateContent(template);
+        mdEngineConfig.setTemplateContent(template);
+        // json
+        EngineConfig jsonEngineConfig = new EngineConfig();
+        jsonEngineConfig.setFileOutputDir(outputDir);
+        jsonEngineConfig.setFileName(module.getName());
+        jsonEngineConfig.setFileType(EngineFileType.JSON);
+        jsonEngineConfig.setTemplateContent(template);
 
-        return engineConfig;
+        return Lists.newArrayList(mdEngineConfig, jsonEngineConfig);
     }
 
 
