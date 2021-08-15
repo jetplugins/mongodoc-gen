@@ -1,10 +1,10 @@
-package com.github.lkqm.mongodocgen.util;
+package io.mongodocgen.util;
 
-import com.github.lkqm.mongodocgen.constant.CommonConstants;
 import com.intellij.psi.PsiArrayType;
 import com.intellij.psi.PsiField;
 import com.intellij.psi.PsiType;
 import com.intellij.psi.impl.source.PsiClassReferenceType;
+import io.mongodocgen.constant.CommonConstants;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;

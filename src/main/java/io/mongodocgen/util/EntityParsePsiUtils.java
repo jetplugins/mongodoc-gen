@@ -1,11 +1,7 @@
-package com.github.lkqm.mongodocgen.util;
+package io.mongodocgen.util;
 
 import static java.util.Objects.nonNull;
 
-import com.github.lkqm.mongodocgen.constant.CommonConstants;
-import com.github.lkqm.mongodocgen.screw.model.ColumnModel;
-import com.github.lkqm.mongodocgen.screw.model.NestedResolveResult;
-import com.github.lkqm.mongodocgen.screw.model.TableModel;
 import com.google.common.collect.Lists;
 import com.intellij.codeInsight.AnnotationUtil;
 import com.intellij.openapi.project.Project;
@@ -25,6 +21,10 @@ import com.intellij.psi.impl.source.PsiClassReferenceType;
 import com.intellij.psi.javadoc.PsiDocComment;
 import com.intellij.psi.javadoc.PsiDocToken;
 import com.intellij.psi.search.GlobalSearchScope;
+import io.mongodocgen.constant.CommonConstants;
+import io.mongodocgen.screw.model.ColumnModel;
+import io.mongodocgen.screw.model.NestedResolveResult;
+import io.mongodocgen.screw.model.TableModel;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;

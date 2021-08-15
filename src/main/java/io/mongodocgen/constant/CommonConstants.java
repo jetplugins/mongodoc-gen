@@ -1,4 +1,4 @@
-package com.github.lkqm.mongodocgen.constant;
+package io.mongodocgen.constant;
 
 import java.nio.charset.StandardCharsets;
 

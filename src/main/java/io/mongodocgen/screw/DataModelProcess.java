@@ -1,12 +1,12 @@
-package com.github.lkqm.mongodocgen.screw;
+package io.mongodocgen.screw;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import com.github.lkqm.mongodocgen.screw.model.DataModel;
-import com.github.lkqm.mongodocgen.screw.model.TableModel;
-import com.github.lkqm.mongodocgen.util.EntityParsePsiUtils;
 import com.google.common.collect.Lists;
 import com.intellij.psi.PsiClass;
+import io.mongodocgen.screw.model.DataModel;
+import io.mongodocgen.screw.model.TableModel;
+import io.mongodocgen.util.EntityParsePsiUtils;
 import java.util.Comparator;
 import java.util.List;
 

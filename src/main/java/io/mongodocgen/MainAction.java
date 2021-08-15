@@ -1,11 +1,5 @@
-package com.github.lkqm.mongodocgen;
+package io.mongodocgen;
 
-import com.github.lkqm.mongodocgen.screw.Configuration;
-import com.github.lkqm.mongodocgen.screw.DocumentationExecute;
-import com.github.lkqm.mongodocgen.screw.engine.EngineConfig;
-import com.github.lkqm.mongodocgen.screw.engine.EngineFileType;
-import com.github.lkqm.mongodocgen.util.NotificationUtils;
-import com.github.lkqm.mongodocgen.util.PsiUtils;
 import com.google.common.collect.Lists;
 import com.google.common.io.Resources;
 import com.intellij.openapi.actionSystem.AnAction;
@@ -18,6 +12,12 @@ import com.intellij.openapi.roots.ModuleRootManager;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.PsiClass;
 import com.intellij.psi.PsiJavaFile;
+import io.mongodocgen.screw.Configuration;
+import io.mongodocgen.screw.DocumentationExecute;
+import io.mongodocgen.screw.engine.EngineConfig;
+import io.mongodocgen.screw.engine.EngineFileType;
+import io.mongodocgen.util.NotificationUtils;
+import io.mongodocgen.util.PsiUtils;
 import java.io.IOException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;

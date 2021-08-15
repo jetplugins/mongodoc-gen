@@ -1,4 +1,4 @@
-package com.github.lkqm.mongodocgen.screw.model;
+package io.mongodocgen.screw.model;
 
 public class NestedResolveResult {
 

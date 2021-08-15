@@ -1,9 +1,9 @@
-package com.github.lkqm.mongodocgen.screw.engine;
+package io.mongodocgen.screw.engine;
 
-import static com.github.lkqm.mongodocgen.constant.CommonConstants.DEFAULT_ENCODING;
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import com.github.lkqm.mongodocgen.screw.model.DataModel;
+import io.mongodocgen.constant.CommonConstants;
+import io.mongodocgen.screw.model.DataModel;
 import java.io.BufferedWriter;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -51,8 +51,8 @@ public class VelocityTemplateEngine extends AbstractTemplateEngine {
         }
         velocityEngine.setProperty("runtime.log.logsystem.class", NullLogChute.class.getName());
         velocityEngine.setProperty(Velocity.FILE_RESOURCE_LOADER_PATH, "");
-        velocityEngine.setProperty(Velocity.ENCODING_DEFAULT, DEFAULT_ENCODING);
-        velocityEngine.setProperty(Velocity.INPUT_ENCODING, DEFAULT_ENCODING);
+        velocityEngine.setProperty(Velocity.ENCODING_DEFAULT, CommonConstants.DEFAULT_ENCODING);
+        velocityEngine.setProperty(Velocity.INPUT_ENCODING, CommonConstants.DEFAULT_ENCODING);
         velocityEngine.setProperty("file.resource.loader.unicode", "true");
     }
 
@@ -66,7 +66,7 @@ public class VelocityTemplateEngine extends AbstractTemplateEngine {
             String templateContent = getEngineConfig().getTemplateContent();
             // output
             try (FileOutputStream outStream = new FileOutputStream(getFile(docName));
-                    OutputStreamWriter writer = new OutputStreamWriter(outStream, DEFAULT_ENCODING);
+                    OutputStreamWriter writer = new OutputStreamWriter(outStream, CommonConstants.DEFAULT_ENCODING);
                     BufferedWriter sw = new BufferedWriter(writer)) {
                 //put data
                 VelocityContext context = new VelocityContext();

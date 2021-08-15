@@ -1,6 +1,6 @@
-package com.github.lkqm.mongodocgen.screw;
+package io.mongodocgen.screw;
 
-import com.github.lkqm.mongodocgen.screw.engine.EngineConfig;
+import io.mongodocgen.screw.engine.EngineConfig;
 import java.util.List;
 
 public class Configuration {

@@ -1,11 +1,10 @@
-package com.github.lkqm.mongodocgen.util;
+package io.mongodocgen.util;
 
-import com.github.lkqm.mongodocgen.constant.CommonConstants;
 import com.intellij.notification.Notification;
-import com.intellij.notification.NotificationDisplayType;
 import com.intellij.notification.NotificationGroup;
 import com.intellij.notification.NotificationType;
 import com.intellij.notification.Notifications;
+import io.mongodocgen.constant.CommonConstants;
 
 /**
  * 消息通知工具类.

@@ -1,6 +1,6 @@
-package com.github.lkqm.mongodocgen.screw.engine;
+package io.mongodocgen.screw.engine;
 
-import com.github.lkqm.mongodocgen.screw.model.DataModel;
+import io.mongodocgen.screw.model.DataModel;
 
 /**
  * 文档渲染的模板引擎

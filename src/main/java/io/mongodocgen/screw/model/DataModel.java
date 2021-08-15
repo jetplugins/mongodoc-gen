@@ -1,4 +1,4 @@
-package com.github.lkqm.mongodocgen.screw.model;
+package io.mongodocgen.screw.model;
 
 import java.util.List;
 

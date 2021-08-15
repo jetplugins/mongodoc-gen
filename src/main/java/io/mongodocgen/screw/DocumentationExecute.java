@@ -1,14 +1,13 @@
-package com.github.lkqm.mongodocgen.screw;
+package io.mongodocgen.screw;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import com.github.lkqm.mongodocgen.screw.engine.EngineConfig;
-import com.github.lkqm.mongodocgen.screw.engine.EngineFileType;
-import com.github.lkqm.mongodocgen.screw.engine.JsonTemplateEngine;
-import com.github.lkqm.mongodocgen.screw.engine.TemplateEngine;
-import com.github.lkqm.mongodocgen.screw.engine.VelocityTemplateEngine;
-import com.github.lkqm.mongodocgen.screw.model.DataModel;
 import com.intellij.psi.PsiClass;
+import io.mongodocgen.screw.engine.EngineConfig;
+import io.mongodocgen.screw.engine.JsonTemplateEngine;
+import io.mongodocgen.screw.engine.TemplateEngine;
+import io.mongodocgen.screw.engine.VelocityTemplateEngine;
+import io.mongodocgen.screw.model.DataModel;
 import java.util.List;
 import org.apache.commons.lang3.StringUtils;
 

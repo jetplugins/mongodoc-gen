@@ -1,6 +1,5 @@
-package com.github.lkqm.mongodocgen.util;
+package io.mongodocgen.util;
 
-import com.github.lkqm.mongodocgen.constant.CommonConstants;
 import com.google.common.collect.Lists;
 import com.intellij.ide.highlighter.JavaFileType;
 import com.intellij.openapi.module.Module;
@@ -10,7 +9,7 @@ import com.intellij.openapi.roots.ModuleRootManager;
 import com.intellij.psi.PsiClass;
 import com.intellij.psi.PsiJavaFile;
 import com.intellij.psi.PsiManager;
-
+import io.mongodocgen.constant.CommonConstants;
 import java.util.Arrays;
 import java.util.List;
 

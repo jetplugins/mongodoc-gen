@@ -1,4 +1,4 @@
-package com.github.lkqm.mongodocgen.screw.engine;
+package io.mongodocgen.screw.engine;
 
 import java.io.Serializable;
 

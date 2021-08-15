@@ -1,4 +1,4 @@
-package com.github.lkqm.mongodocgen.screw.engine;
+package io.mongodocgen.screw.engine;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 

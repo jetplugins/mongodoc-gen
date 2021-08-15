@@ -1,5 +1,5 @@
-# mongodoc-gen-intellij-plugin
-Generate mongodb database documents from the spring-data-mongodb entity class.
+# mongodoc-gen
+Generate mongodb database documents from the spring-data-mongodb entity.
 
 一键生成mongodb数据库文档.
 

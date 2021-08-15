@@ -1,7 +1,7 @@
-package com.github.lkqm.mongodocgen.screw.engine;
+package io.mongodocgen.screw.engine;
 
-import com.github.lkqm.mongodocgen.screw.model.DataModel;
 import com.google.gson.Gson;
+import io.mongodocgen.screw.model.DataModel;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
